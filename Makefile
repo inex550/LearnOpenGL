@@ -1,5 +1,3 @@
-.PHONY: all clean rebuild
-
 GXX=g++
 CARGS=-Wall -Werror -Wextra
 
@@ -29,5 +27,3 @@ ex_5_8_3:
 
 clean:
 	rm -rf build/*
-
-rebuild: clean all
