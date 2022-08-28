@@ -29,7 +29,7 @@ void check_shader_errors(uint32_t shader, const char* shaderName) {
     if (!success) {
         char errLog[512];
         glGetShaderInfoLog(shader, 512, NULL, errLog);
-        cerr << shaderName << " Shader compilation ERROR:\n" << errLog << endl;
+        cerr << shaderName << " compilation ERROR:\n" << errLog << endl;
     }
 }
 
@@ -39,7 +39,7 @@ void check_program_errors(uint32_t program, const char* programName) {
     if (!success) {
         char errLog[512];
         glGetProgramInfoLog(program, 512, NULL, errLog);
-        cerr << programName << " Program compilation ERROR:\n" << errLog << endl;
+        cerr << programName << " compilation ERROR:\n" << errLog << endl;
     }
 }
 

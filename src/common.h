@@ -5,7 +5,15 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-typedef unsigned int ui32;
+#ifdef VSC_DEBUG
+    #define VSC_BACK "..\\"
+#else
+    #define VSC_BACK
+#endif
+
+typedef unsigned int uint32;
+
+typedef unsigned char uint8;
 
 uint32_t loadShader(const char* shaderFilename, GLenum type);
 

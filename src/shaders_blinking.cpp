@@ -1,23 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 #include "common.h"
 
 #define UNUSED(x) (void)(x)
 
+#define MAX_FPS 60
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 using namespace std;
-
-const char* vertexShaderSource = 
-    "#version 400 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main() { gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); }";
-
-const char* fragmentShaderSource =
-    "#version 400 core\n"
-    "out vec4 FragColor;"
-    "void main() { FragColor = vec4(0.5, 0.0, 1.0, 1.0); }";
 
 float verices[] = {
     -0.5f, 0.5f, 0.0f,
@@ -48,17 +41,17 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
     uint32_t vertexShader = loadShader("src\\shaders\\vertex_shader_common.glsl", GL_VERTEX_SHADER);
-    uint32_t fragmentShader = loadShader("src\\shaders\\fragment_shader_purple.glsl", GL_FRAGMENT_SHADER);
+    uint32_t fragmentShader = loadShader("src\\shaders\\fragment_shader_uniform_purple.glsl", GL_FRAGMENT_SHADER);
 
-    check_shader_errors(vertexShader, "Vertex");
-    check_shader_errors(fragmentShader, "Fragment");
+    check_shader_errors(vertexShader, "VertexShader");
+    check_shader_errors(fragmentShader, "FragmentShader");
 
     uint32_t shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
 
-    check_program_errors(shaderProgram, "Shader");
+    check_program_errors(shaderProgram, "ShaderProgram");
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
@@ -83,15 +76,31 @@ int main() {
 
     glBindVertexArray(GL_ZERO);
 
+    float lastTime = 0;
+
     while (!glfwWindowShouldClose(window)) {
+        float currentTime = glfwGetTime();
+
+        if (currentTime - lastTime < 1.0 / MAX_FPS) {
+            glfwPollEvents();
+            continue;
+        }
+
         glClear(GL_COLOR_BUFFER_BIT);
 
+        float time = glfwGetTime();
+        float purpleValue = (sin(time) / 2.0f) + 0.5f;
+        int uniformColorLocation = glGetUniformLocation(shaderProgram, "color");
         glUseProgram(shaderProgram);
+        glUniform4f(uniformColorLocation, purpleValue / 2.0f, 0.0f, purpleValue, 1.0f);
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        lastTime = currentTime;
     }
     
     glfwTerminate();
