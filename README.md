@@ -28,6 +28,6 @@
 
 ## Трансформации
 
-Кучка квадратов в 3D пространстве, в котором можно перемещаться с помощью WASD Space Control
+Кучка кубов в 3D пространстве, в котором можно перемещаться с помощью WASD Space Control
 
 ![transforms.png](https://github.com/inex550/LearnOpenGL/blob/res/res/transforms.gif)
