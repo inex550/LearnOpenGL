@@ -3,6 +3,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "shader.h"
 
 class ShaderProgram {
@@ -19,6 +21,8 @@ public:
 
     void setFloat(const char* name, float value);
     void setInt(const char* name, int value);
+
+    void setMat4(const char* name, const glm::mat4& value);
 
     void clear();
 

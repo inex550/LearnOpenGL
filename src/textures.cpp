@@ -61,7 +61,6 @@ int main() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-
     int width, height, channels;
     const char* textureSource1 = VSC_BACK"res\\img\\texture.jpg";
     uint8* data = stbi_load(textureSource1, &width, &height, &channels, 0);

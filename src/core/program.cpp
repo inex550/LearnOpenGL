@@ -33,6 +33,10 @@ void ShaderProgram::setInt(const char* name, int value) {
     glUniform1i(glGetUniformLocation(program, name), value);
 }
 
+void ShaderProgram::setMat4(const char* name, const glm::mat4& mtx) {
+    glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, glm::value_ptr(mtx));
+}
+
 void ShaderProgram::clear() {
     glDeleteProgram(program);
 }

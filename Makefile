@@ -21,6 +21,9 @@ shaders_rainbow:
 
 textures:
 	${GXX} ${CARGS} ${SRC_COMMON} src/textures.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
+	
+transforms:
+	${GXX} ${CARGS} ${SRC_COMMON} src/transforms.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
 
 ex_5_8_1:
 	${GXX} ${CARGS} ${SRC_COMMON} src/exercices/ex_5_8_1.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
@@ -39,6 +42,9 @@ ex_7_8_2:
 	
 ex_7_8_4:
 	${GXX} ${CARGS} ${SRC_COMMON} src/exercices/ex_7_8_4.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
+	
+ex_8_19_2:
+	${GXX} ${CARGS} ${SRC_COMMON} src/exercices/ex_8_19_2.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
 
 clean:
 	rm -rf build/*

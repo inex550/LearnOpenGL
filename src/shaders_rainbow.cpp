@@ -90,7 +90,7 @@ int main() {
 
         lastTime = currentTime;
     }
-    
+
     glfwTerminate();
     return 0;
 }
