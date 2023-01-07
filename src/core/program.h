@@ -23,6 +23,7 @@ public:
     void setInt(const char* name, int value);
 
     void setMat4(const char* name, const glm::mat4& value);
+    void setVec3(const char* name, const glm::vec3& value);
 
     void clear();
 

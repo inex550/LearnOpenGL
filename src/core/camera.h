@@ -9,6 +9,8 @@
 
 #define CAMERA_SPEED 10.0f
 
+#define ZOOM_SPEED 2.0f
+
 class Camera {
 public:
     Camera(glm::vec3 startPosition, float sensitivity);
@@ -16,12 +18,17 @@ public:
     void processFrame(GLFWwindow* const& window, float deltaTime);
 
     void mouseCallback(float x, float y);
+    void scrollCallback(float yoffset);
+
+    glm::vec3 getPosition();
 
     glm::mat4 getView();
 
     glm::vec3 forward();
     glm::vec3 right();
     glm::vec3 up();
+
+    float getZoom();
 
 private:
     glm::vec3 position;
@@ -32,6 +39,11 @@ private:
 
     float pitch;
     float yaw;
+
+    float lastX;
+    float lastY;
+
+    float zoom;
 };
 
 #endif // _CAMERA_H_

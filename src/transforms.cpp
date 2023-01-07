@@ -13,19 +13,17 @@
 
 #define UNUSED(x) (void)(x)
 
+void setupProjection();
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void cursor_callback(GLFWwindow* window, double x, double y);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 #define MAX_FPS 60
 
 using namespace std;
 
 float verices[] = {
-    // -0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-    // -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-    // 0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-    // 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-
     -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
     0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
     0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
@@ -108,6 +106,7 @@ int main() {
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, (GLFWcursorposfun)cursor_callback);
+    glfwSetScrollCallback(window, (GLFWscrollfun)scroll_callback);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     framebuffer_size_callback(window, width, height);
@@ -116,6 +115,8 @@ int main() {
     program.addShader(Shader(VSC_BACK"src\\shaders\\vertex_shader_texture_transform.glsl", GL_VERTEX_SHADER));
     program.addShader(Shader(VSC_BACK"src\\shaders\\fragment_shader_texture.glsl", GL_FRAGMENT_SHADER));
     program.link();
+
+    program.printErrorIfHas();
 
     Texture texture1(VSC_BACK"res\\img\\texture.jpg");
     texture1.setParamInt(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -162,7 +163,6 @@ int main() {
     glBindVertexArray(GL_ZERO);
 
     glEnable(GL_DEPTH_TEST);
-    // view = glm::rotate(view, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
     float currentTime = 0.0f;
     float lastTime = 0.0f;
@@ -219,16 +219,28 @@ int main() {
     return 0;
 }
 
+void setupProjection() {
+    projection = glm::perspective(glm::radians(camera.getZoom()), (float)width / (float)height, 0.1f, 100.0f);
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int newWidth, int newHeight) {
     UNUSED(window);
     width = newWidth;
     height = newHeight;
 
-    projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+    setupProjection();
     glViewport(0, 0, width, height);
 }
 
 void cursor_callback(GLFWwindow* window, double x, double y) {
     UNUSED(window);
     camera.mouseCallback(x, y);
+}
+
+
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+    UNUSED(window);
+    UNUSED(xoffset);
+    camera.scrollCallback(yoffset);
+    setupProjection();
 }

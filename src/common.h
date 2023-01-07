@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #ifdef VSC_DEBUG
-    #define VSC_BACK "..\\"
+    #define VSC_BACK "../"
 #else
     #define VSC_BACK
 #endif

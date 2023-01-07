@@ -14,6 +14,8 @@ public:
 
     ~Texture();
 
+    GLuint id();
+
     void makeData();
     void clearData();
 

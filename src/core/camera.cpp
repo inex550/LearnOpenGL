@@ -7,8 +7,14 @@ Camera::Camera(glm::vec3 startPosition, float sensitivity) {
     position = -startPosition;
     pitch = 0.0f;
     yaw =-90.0f;
+    lastX = lastY = -1;
+    zoom = 45.0f;
     front = glm::vec3(0.0f, 0.0f, -1.0f);
     this->sensitivity = sensitivity;
+}
+
+glm::vec3 Camera::getPosition() {
+    return position;
 }
 
 glm::vec3 Camera::forward() {
@@ -17,14 +23,14 @@ glm::vec3 Camera::forward() {
 
 glm::vec3 Camera::right() {
     glm::vec3 right = glm::normalize(glm::cross(front, upBasic));
-    if (front.y == upBasic.y)
+    if (right.x == 0 && right.y == 0 && right.z == 0)
         right.x = rightBasic.x;
     return right;
 }
 
 glm::vec3 Camera::up() {
     glm::vec3 up = glm::normalize(glm::cross(front, rightBasic));
-    if (front.x == rightBasic.x)
+    if (up.x == 0 && up.y == 0 && up.z == 0)
         up.y = upBasic.y;
     return up;
 }
@@ -51,8 +57,10 @@ void Camera::processFrame(GLFWwindow* const& window, float deltaTime) {
 }
 
 void Camera::mouseCallback(float x, float y) {
-    static float lastX = x;
-    static float lastY = y;
+    if (lastX < 0 && lastY < 0) {
+        lastX = x;
+        lastY = y;
+    }
 
     pitch -= (y - lastY) * sensitivity;
     yaw += (x - lastX) * sensitivity;
@@ -69,6 +77,14 @@ void Camera::mouseCallback(float x, float y) {
     direction.y = sin(glm::radians(pitch));
     direction.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
     front = glm::normalize(direction);
+}
+
+void Camera::scrollCallback(float yoffset) {
+    zoom -= yoffset * ZOOM_SPEED;
+}
+
+float Camera::getZoom() {
+    return zoom;
 }
 
 glm::mat4 Camera::getView() {

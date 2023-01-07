@@ -13,13 +13,17 @@ Texture::~Texture() {
     clear();
 }
 
+GLuint Texture::id() {
+    return texture;
+}
+
 void Texture::makeData() {
     clearData();
     data = stbi_load(source.c_str(), &width, &height, &channels, 0);
 }
 
 void Texture::clearData() {
-    if (data == nullptr) {
+    if (data != nullptr) {
         stbi_image_free(data);
     }
 }
@@ -36,9 +40,12 @@ void Texture::make(bool withMipmap) {
     GLenum format;
     if (channels == 4)
         format = GL_RGBA;
-    else
+    else if (channels == 3)
         format = GL_RGB;
+    else
+        return;
 
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
     if (withMipmap)
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -49,10 +56,10 @@ void Texture::clear() {
     glDeleteTextures(1, &texture);
 }
 
-void Texture::use() {
+inline void Texture::use() {
     glBindTexture(GL_TEXTURE_2D, texture);
 }
 
-void Texture::setParamInt(int name, int value) {
+inline void Texture::setParamInt(int name, int value) {
     glTexParameteri(GL_TEXTURE_2D, name, value);
 }

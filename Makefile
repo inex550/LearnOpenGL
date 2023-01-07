@@ -1,7 +1,8 @@
 GXX=g++
-CARGS=-Wall -Werror -Wextra
+CARGS=-Wall
 
 OPEN_GL_LIBS=-lopengl32 -lglu32 -lglfw3 -lgdi32
+ASSIMP_LIB=-lassimp
 
 INCS=-IInclude
 LIBS=-LLibs
@@ -21,9 +22,18 @@ shaders_rainbow:
 
 textures:
 	${GXX} ${CARGS} ${SRC_COMMON} src/textures.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
-	
+
 transforms:
 	${GXX} ${CARGS} ${SRC_COMMON} src/transforms.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
+
+light:
+	${GXX} ${CARGS} ${SRC_COMMON} src/light.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}
+
+light_casters:
+	${GXX} ${CARGS} ${SRC_COMMON} src/light_casters.cpp ${OPEN_GL_LIBS} ${ASSIMP_LIB} ${INCS} ${LIBS} -o ${OUT_BIN}
+
+models:
+	${GXX} ${CARGS} ${SRC_COMMON} src/models.cpp ${OPEN_GL_LIBS} ${ASSIMP_LIB} ${INCS} ${LIBS} -o ${OUT_BIN}
 
 ex_5_8_1:
 	${GXX} ${CARGS} ${SRC_COMMON} src/exercices/ex_5_8_1.cpp ${OPEN_GL_LIBS} ${INCS} ${LIBS} -o ${OUT_BIN}

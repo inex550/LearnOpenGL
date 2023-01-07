@@ -37,13 +37,17 @@ void ShaderProgram::setMat4(const char* name, const glm::mat4& mtx) {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, glm::value_ptr(mtx));
 }
 
+void ShaderProgram::setVec3(const char* name, const glm::vec3& vec) {
+    glUniform3fv(glGetUniformLocation(program, name), 1, glm::value_ptr(vec));
+}
+
 void ShaderProgram::clear() {
     glDeleteProgram(program);
 }
 
 void ShaderProgram::printErrorIfHas() const {
     GLint success;
-    glGetProgramiv(program, GL_COMPILE, &success);
+    glGetProgramiv(program, GL_LINK_STATUS, &success);
     if (!success) {
         char errLog[BUFSIZ];
         glGetProgramInfoLog(program, BUFSIZ, NULL, errLog);
